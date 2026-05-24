@@ -75,7 +75,7 @@ class JobFilteringService:
                     await self.repository.mark_processed(
                         job.job_hash
                     )
-
+                    await self.repository.session.commit()
                     logger.info(
                         f"Processed AI job: "
                         f"{job.title}"

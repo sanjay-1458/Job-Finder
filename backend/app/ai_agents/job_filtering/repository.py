@@ -52,6 +52,7 @@ class JobFilteringRepository:
         """Maps output keys to the model layer securely."""
         try:
             result = JobAIResult(
+                user_id=raw_job.user_id,
                 job_hash=raw_job.job_hash,
                 company=raw_job.company,
                 title=raw_job.title,
@@ -78,7 +79,7 @@ class JobFilteringRepository:
                 processed_at=datetime.now(timezone.utc).replace(tzinfo=None)
             )
             self.session.add(result)
-            await self.session.commit()
+            await self.session.flush() 
         except Exception as e:
             await self.session.rollback()
             logger.error(f"Failed to save AI result for job {raw_job.job_hash}: {e}")
