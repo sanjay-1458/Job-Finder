@@ -31,12 +31,9 @@ app.add_middleware(
 
     CORSMiddleware,
 
-    allow_origins=[
+    allow_origins=["*"],
 
-        "http://localhost:3000",
-
-        "https://YOUR_APP.vercel.app"
-    ],
+    
 
     allow_credentials=True,
 
