@@ -52,102 +52,103 @@ def get_crawler(company):
 # -----------------------------
 # PROCESS SINGLE COMPANY
 # -----------------------------
-async def process_company(company, user_id: int):
-    try:
-        logger.info(f"Fetching jobs from {company['name']}")
+async def process_company(company, user_id: int, semaphore):
+    async with semaphore:
+        try:
+            logger.info(f"Fetching jobs from {company['name']}")
 
-        # ✅ FIX 1: CREATE CRAWLER
-        crawler = get_crawler(company)
+            # ✅ FIXED: create crawler
+            crawler = get_crawler(company)
 
-        # ✅ FIX 2: HANDLE TOKEN VS BASE_URL
-        if company["provider"] == "workday":
-            result = await crawler.fetch_jobs(company["base_url"])
-        else:
-            result = await crawler.fetch_jobs(company["token"])
+            # ✅ FIXED: correct param passing
+            if company["provider"] == "workday":
+                result = await crawler.fetch_jobs(company["base_url"])
+            else:
+                result = await crawler.fetch_jobs(company["token"])
 
-        if not result.success:
-            logger.warning(f"{company['name']} -> {result.error}")
-            return
+            if not result.success:
+                logger.warning(f"{company['name']} -> {result.error}")
+                return
 
-        raw_jobs = result.jobs
-        logger.info(f"{company['name']} -> fetched {len(raw_jobs)} jobs")
+            raw_jobs = result.jobs
+            logger.info(f"{company['name']} -> fetched {len(raw_jobs)} jobs")
 
-        async with AsyncSessionLocal() as session:
-            repository = JobRepository(session)
+            async with AsyncSessionLocal() as session:
+                repository = JobRepository(session)
 
-            for raw_job in raw_jobs:
-                try:
-                    # -----------------------------
-                    # NORMALIZATION
-                    # -----------------------------
-                    if company["provider"] == "greenhouse":
-                        normalized = normalize_greenhouse_job(
-                            raw_job, company_name=company["name"]
+                for raw_job in raw_jobs:
+                    try:
+                        # -----------------------------
+                        # NORMALIZATION
+                        # -----------------------------
+                        if company["provider"] == "greenhouse":
+                            normalized = normalize_greenhouse_job(
+                                raw_job, company_name=company["name"]
+                            )
+
+                        elif company["provider"] == "lever":
+                            normalized = normalize_lever_job(
+                                raw_job, company_name=company["name"]
+                            )
+
+                        elif company["provider"] == "workday":
+                            normalized = normalize_workday_job(
+                                raw_job, company_name=company["name"]
+                            )
+
+                        elif company["provider"] == "ashby":
+                            normalized = normalize_ashby_job(
+                                raw_job, company_name=company["name"]
+                            )
+
+                        else:
+                            continue
+
+                        if not normalized:
+                            continue
+
+                        title = normalized.get("title", "")
+                        location = normalized.get("location", "")
+
+                        # -----------------------------
+                        # FILTERS
+                        # -----------------------------
+                        if not is_relevant_job(title):
+                            continue
+
+                        if not is_good_location(location):
+                            continue
+
+                        # -----------------------------
+                        # SAVE
+                        # -----------------------------
+                        await repository.save_job(
+                            normalized,
+                            user_id=user_id
                         )
 
-                    elif company["provider"] == "lever":
-                        normalized = normalize_lever_job(
-                            raw_job, company_name=company["name"]
+                    except Exception as job_err:
+                        logger.warning(
+                            f"Job failed ({company['name']}): {job_err}"
                         )
-
-                    elif company["provider"] == "workday":
-                        normalized = normalize_workday_job(
-                            raw_job, company_name=company["name"]
-                        )
-
-                    elif company["provider"] == "ashby":
-                        normalized = normalize_ashby_job(
-                            raw_job, company_name=company["name"]
-                        )
-
-                    else:
                         continue
 
-                    # ✅ FIX 3: SAFE CHECK
-                    if not normalized:
-                        continue
-
-                    title = normalized.get("title", "")
-                    location = normalized.get("location", "")
-
-                    # DEBUG (optional)
-                    # logger.info(f"RAW JOB -> {title} | {location}")
-
-                    # -----------------------------
-                    # FILTERS
-                    # -----------------------------
-                    if not is_relevant_job(title):
-                        continue
-
-                    if not is_good_location(location):
-                        continue
-
-                    # -----------------------------
-                    # SAVE
-                    # -----------------------------
-                    await repository.save_job(
-                        normalized,
-                        user_id=user_id
-                    )
-
-                except Exception as job_err:
-                    logger.warning(
-                        f"Job failed ({company['name']}): {job_err}"
-                    )
-                    continue
-
-    except Exception as e:
-        logger.error(
-            f"Critical error processing company {company.get('name', 'Unknown')}: {e}"
-        )
+        except Exception as e:
+            logger.error(
+                f"Critical error processing company {company.get('name', 'Unknown')}: {e}"
+            )
 
 
 # -----------------------------
 # MAIN RUNNER
 # -----------------------------
 async def main(user_id: int = 1):
+
+    # ✅ FIX: limit concurrency (VERY IMPORTANT)
+    semaphore = asyncio.Semaphore(10)
+
     tasks = [
-        process_company(company, user_id)
+        process_company(company, user_id, semaphore)
         for company in COMPANIES
     ]
 
