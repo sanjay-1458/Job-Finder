@@ -16,6 +16,7 @@ PARAGRAPH 1:
 - Mention ACTUAL experience from Candidate Summary
 - Extract and mention REAL SKILLS (tech stack explicitly)
 - Mention interest in backend / software engineering
+- Mention previous companies if available
 - Keep it natural and grounded
 
 ----------------------------------------

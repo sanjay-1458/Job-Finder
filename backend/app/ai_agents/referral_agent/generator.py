@@ -152,13 +152,9 @@ Hi,
 I have added the necessary details below.
 
 Job Link: {job.apply_url}
-
 Email: {email}
-
 Portfolio: {portfolio_link}
-
 Resume: {resume_link}
-
 Contact: {phone}
 
 Thank You for your time and consideration.

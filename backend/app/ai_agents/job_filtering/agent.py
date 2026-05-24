@@ -19,9 +19,9 @@ class JobFilteringAgent:
                 raw_job.title or ""
             ).lower()
 
-            description_lower = (
-                raw_job.raw_description or ""
-            ).lower()
+            # description_lower = (
+            #     raw_job.raw_description or ""
+            # ).lower()
 
             senior_keywords = [
                 "senior",
@@ -76,7 +76,9 @@ class JobFilteringAgent:
                     )
                 )
 
-                content = response.choices[0].message.content
+                content = response.choices[0].message.content if response.choices else None
+                if not content:
+                    return None
 
                 logger.info(
                     f"LLM response received for: "

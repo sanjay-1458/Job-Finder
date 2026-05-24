@@ -43,7 +43,7 @@ class JobFilteringRepository:
                 )
             )
             await self.session.execute(query)
-            await self.session.commit()
+            # await self.session.commit()
         except Exception as e:
             await self.session.rollback()
             logger.error(f"Failed to mark job {job_hash} as processed: {e}")

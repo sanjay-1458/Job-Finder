@@ -2,7 +2,6 @@ import logging
 from app.ai_agents.job_filtering.agent import JobFilteringAgent
 
 
-BYPASS_LLM = True
 logger = logging.getLogger("job_filtering.service")
 
 class JobFilteringService:
@@ -20,22 +19,9 @@ class JobFilteringService:
                 # Wrap individual items in isolated try-except scopes to ensure the loop survives failures
                 try:
 
-                    # ai_output = await self.agent.classify_job(
-                    #     job
-                    # )
-
-                    if BYPASS_LLM:
-                        ai_output = {
-                            "is_fresher": True,
-                            "experience_years": None,
-                            "role_category": "unknown",
-                            "is_india_eligible": True,
-                            "salary_detected": False,
-                            "salary_lpa": None,
-                            "confidence": 1.0
-                        }
-                    else:
-                        ai_output = await self.agent.classify_job(job)
+                    ai_output = await self.agent.classify_job(
+                        job
+                    )
 
                     if not ai_output:
 
@@ -58,24 +44,23 @@ class JobFilteringService:
 
                             "salary_lpa": None,
 
-                            "confidence": None
+                            "confidence": 0.5
                         }
 
                     # if any(
                     #     val is not None
                     #     for val in ai_output.values()
                     # ):
-                    if ai_output:
 
-                        await self.repository.save_ai_result(
-                            job,
-                            ai_output
-                        )
+                    await self.repository.save_ai_result(
+                        job,
+                        ai_output
+                    )
 
                     await self.repository.mark_processed(
                         job.job_hash
                     )
-                    await self.repository.session.commit()
+                    # await self.repository.session.commit()
                     logger.info(
                         f"Processed AI job: "
                         f"{job.title}"
@@ -96,5 +81,7 @@ class JobFilteringService:
                         pass
 
                     continue
+            await self.repository.session.commit()
+            
         except Exception as e:
             logger.critical(f"Service-level failure in process_jobs: {e}")
