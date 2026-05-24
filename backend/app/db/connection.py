@@ -8,17 +8,40 @@ from app.config.settings import (
 )
 
 try:
+
     engine = create_async_engine(
+
         DATABASE_URL,
-        echo=True
+
+        echo=True,
+
+        connect_args={
+            "statement_cache_size": 0
+        }
     )
-except Exception:
+
+except Exception as e:
+
+    print(
+        f"DB Engine Creation Failed: {e}"
+    )
+
     engine = None
 
+
 try:
+
     AsyncSessionLocal = async_sessionmaker(
+
         engine,
+
         expire_on_commit=False
     )
-except Exception:
+
+except Exception as e:
+
+    print(
+        f"Session Factory Failed: {e}"
+    )
+
     AsyncSessionLocal = None
