@@ -80,7 +80,7 @@ class ReferralMessageGenerator:
                     job_hash=job.job_hash
                 )
             )
-
+            profile_summary = os.getenv("PROFILE_SUMMARY", "")
             full_name = os.getenv("FULL_NAME", "")
             grad_year = os.getenv("GRAD_YEAR", "")
             degree = os.getenv("DEGREE", "")
@@ -95,6 +95,8 @@ Candidate Name: {full_name}
 Graduation Year: {grad_year}
 
 Degree: {degree}
+
+Candidate Summary: {profile_summary}
 
 Company: {job.company}
 
