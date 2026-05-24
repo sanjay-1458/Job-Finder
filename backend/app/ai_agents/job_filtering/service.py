@@ -1,6 +1,8 @@
 import logging
 from app.ai_agents.job_filtering.agent import JobFilteringAgent
 
+
+BYPASS_LLM = True
 logger = logging.getLogger("job_filtering.service")
 
 class JobFilteringService:
@@ -18,9 +20,22 @@ class JobFilteringService:
                 # Wrap individual items in isolated try-except scopes to ensure the loop survives failures
                 try:
 
-                    ai_output = await self.agent.classify_job(
-                        job
-                    )
+                    # ai_output = await self.agent.classify_job(
+                    #     job
+                    # )
+
+                    if BYPASS_LLM:
+                        ai_output = {
+                            "is_fresher": True,
+                            "experience_years": None,
+                            "role_category": "unknown",
+                            "is_india_eligible": True,
+                            "salary_detected": False,
+                            "salary_lpa": None,
+                            "confidence": 1.0
+                        }
+                    else:
+                        ai_output = await self.agent.classify_job(job)
 
                     if not ai_output:
 
@@ -46,10 +61,11 @@ class JobFilteringService:
                             "confidence": None
                         }
 
-                    if any(
-                        val is not None
-                        for val in ai_output.values()
-                    ):
+                    # if any(
+                    #     val is not None
+                    #     for val in ai_output.values()
+                    # ):
+                    if ai_output:
 
                         await self.repository.save_ai_result(
                             job,
