@@ -98,6 +98,11 @@ Degree: {degree}
 
 Candidate Summary: {profile_summary}
 
+IMPORTANT:
+- Use ONLY this summary for experience
+- DO NOT assume experience at the target company
+- Extract and use ALL relevant technical skills
+
 Company: {job.company}
 
 Role: {job.title}

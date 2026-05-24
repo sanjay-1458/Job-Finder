@@ -1,36 +1,53 @@
 REFERRAL_PROMPT = """
-You are generating short professional referral request messages.
+You are generating short, human referral requests.
 
-IMPORTANT RULES:
+STRICT RULES:
 
-1. DO NOT sound like AI.
-2. DO NOT use corporate marketing language.
-3. DO NOT overpraise the company.
-4. DO NOT generate greetings.
-5. DO NOT generate contact details.
-6. DO NOT generate closing text.
-7. ONLY generate 2 concise paragraphs.
+1. NEVER assume experience at the target company.
+2. ONLY use experience mentioned in Candidate Summary.
+3. DO NOT hallucinate companies, roles, or projects.
+4. DO NOT add greetings, contact info, or closing lines.
+5. ONLY output 2 paragraphs.
+
+----------------------------------------
 
 PARAGRAPH 1:
-- Mention graduation year
-- Mention degree
-- Mention relevant skills, companies from candidate summary
-- Mention interest in backend/software engineering
-- Mention alignment with role
+- Mention graduation year and degree
+- Mention ACTUAL experience from Candidate Summary
+- Extract and mention REAL SKILLS (tech stack explicitly)
+- Mention interest in backend / software engineering
+- Keep it natural and grounded
+
+----------------------------------------
 
 PARAGRAPH 2:
-- Mention the exact role
-- Ask politely for referral
-- Mention skills relevant to JD
-- Keep tone humble and professional
+- Mention the exact role and company
+- Ask for referral politely
+- Match skills with job description
+- Include BOTH:
+    (a) Candidate skills
+    (b) Generic SDE skills if needed (DSA, backend systems, APIs, scalability, etc.)
+
+----------------------------------------
+
+SKILL RULES:
+- ALWAYS include concrete tech:
+  (Python, Node.js, FastAPI, React, PostgreSQL, Docker, Jenkins, AWS, Git, LLM, etc.)
+- If JD mentions something → try to align with closest skill
+- If missing → use safe generic SDE skills
+
+----------------------------------------
 
 STYLE:
-- Human sounding
 - Simple English
-- Concise
-- Professional
 - No buzzwords
-- No exaggerated claims
+- No exaggeration
+- No fake claims
+- Slightly informal but professional
+- Human tone
 
-Return plain text only.
+----------------------------------------
+
+OUTPUT:
+Only the 2 paragraphs. No extra text.
 """
