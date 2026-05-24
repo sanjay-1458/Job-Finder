@@ -27,6 +27,43 @@ The system supports both local development and cloud deployment using:
 * Vercel frontend deployment
 
 ---
+# Job Finder
+
+<p align="center">
+  Modern AI-powered job finder platform with intelligent job discovery and streamlined search experience.
+</p>
+
+---
+
+# Live Website
+
+🔗 **Website:**  
+https://job-finder-psi-eight.vercel.app/
+
+---
+
+# Demo
+
+## Screenshot
+
+<p align="center">
+  <img 
+    width="1336"
+    height="876"
+    alt="Job Finder Screenshot"
+    src="https://github.com/user-attachments/assets/66131755-c904-4fb5-b0a5-0d3738b66417"
+  />
+</p>
+
+---
+
+## Video Demo
+
+🎥 Watch Demo:  
+https://drive.google.com/file/d/1cUFRQ0ovvDjFpOZjLA70KtN8IlrX4yrJ/view?usp=sharing
+
+
+---
 
 # Core Features
 
