@@ -14,7 +14,7 @@ IMPORTANT RULES:
 PARAGRAPH 1:
 - Mention graduation year
 - Mention degree
-- Mention relevant skills from resume
+- Mention relevant skills, companies from candidate summary
 - Mention interest in backend/software engineering
 - Mention alignment with role
 
