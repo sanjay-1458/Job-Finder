@@ -9,22 +9,4 @@ WORKDAY_COMPANIES = [
     {"name": "philips", "provider": "workday", "base_url": "https://philips.wd3.myworkdayjobs.com/careers"},
     {"name": "shell", "provider": "workday", "base_url": "https://shell.wd3.myworkdayjobs.com/careers"},
     {"name": "unilever", "provider": "workday", "base_url": "https://unilever.wd3.myworkdayjobs.com/UnileverCareers"},
-
-    {"name": "ey", "provider": "workday", "base_url": "https://ey.wd3.myworkdayjobs.com/External"},
-    {"name": "kpmg", "provider": "workday", "base_url": "https://kpmg.wd3.myworkdayjobs.com/KPMGCareers"},
-    {"name": "pwc", "provider": "workday", "base_url": "https://pwc.wd3.myworkdayjobs.com/External_Careers"},
-    {"name": "deloitte", "provider": "workday", "base_url": "https://apply.deloitte.com/careers"},
-
-    {"name": "jpmorgan", "provider": "workday", "base_url": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001"},
-    {"name": "goldmansachs", "provider": "workday", "base_url": "https://higher.gs.com"},
-    {"name": "barclays", "provider": "workday", "base_url": "https://search.jobs.barclays"},
-    {"name": "ubs", "provider": "workday", "base_url": "https://jobs.ubs.com"},
-
-    {"name": "target", "provider": "workday", "base_url": "https://target.wd5.myworkdayjobs.com/TargetCareers"},
-    {"name": "walmart", "provider": "workday", "base_url": "https://walmart.wd5.myworkdayjobs.com/WalmartExternal"},
-    {"name": "nike", "provider": "workday", "base_url": "https://jobs.nike.com"},
-    {"name": "adidas", "provider": "workday", "base_url": "https://careers.adidas-group.com"},
-    {"name": "pepsico", "provider": "workday", "base_url": "https://pepsicojobs.com"},
-    {"name": "caterpillar", "provider": "workday", "base_url": "https://caterpillar.wd5.myworkdayjobs.com/caterpillarcareers"},
-    {"name": "johnsoncontrols", "provider": "workday", "base_url": "https://johnsoncontrols.wd5.myworkdayjobs.com/External"},
 ]
