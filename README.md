@@ -58,9 +58,12 @@ https://job-finder-psi-eight.vercel.app/
 ---
 
 ## Video Demo
-
-🎥 Watch Demo:  
+---
+🎥 Watch Demo 1:  
 https://drive.google.com/file/d/1cUFRQ0ovvDjFpOZjLA70KtN8IlrX4yrJ/view?usp=sharing
+
+🎥 Watch Demo 2:  
+https://drive.google.com/file/d/1JKqsShGwICdyhDSaaP3RcgLzMJ6bixOr/view?usp=sharing
 
 
 ---
